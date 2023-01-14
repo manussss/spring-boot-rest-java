@@ -1,36 +1,23 @@
 package br.com.branq.controllers;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.branq.model.Person;
+import br.com.branq.services.PersonService;
+
 @RestController
+@RequestMapping("/person")
 public class PersonController {
 	
-//	@GetMapping("/sum/{numberOne}/{numberTwo}")
-//	public Double sum(@PathVariable(value = "numberOne") Double numberOne, @PathVariable(value = "numberTwo") Double numberTwo) {
-//		MathOperation operator = new SumOperation();
-//		
-//		return operator.doMathOperation(numberOne, numberTwo);
-//	}
-//	
-//	@GetMapping("/subtract/{numberOne}/{numberTwo}")
-//	public Double subtract(@PathVariable(value = "numberOne") Double numberOne, @PathVariable(value = "numberTwo") Double numberTwo) {
-//		MathOperation operator = new SubtractOperation();
-//		
-//		return operator.doMathOperation(numberOne, numberTwo);
-//	}
-//	
-//	@GetMapping("/divide/{numberOne}/{numberTwo}")
-//	public Double divide(@PathVariable(value = "numberOne") Double numberOne, @PathVariable(value = "numberTwo") Double numberTwo) {
-//		MathOperation operator = new DivideOperation();
-//		
-//		return operator.doMathOperation(numberOne, numberTwo);
-//	}
-//	
-//	@GetMapping("/multiply/{numberOne}/{numberTwo}")
-//	public Double multiply(@PathVariable(value = "numberOne") Double numberOne, @PathVariable(value = "numberTwo") Double numberTwo) {
-//		MathOperation operator = new MultiplyOperation();
-//		
-//		return operator.doMathOperation(numberOne, numberTwo);
-//	}
+	// o Spring boot vai cuidar da instanciacao
+	@Autowired
+	private PersonService service;
+	
+	@GetMapping("/{id}")
+	public Person getById(@PathVariable(value = "id") String id) {
+		return service.getById(id);
+	}
 }
