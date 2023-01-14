@@ -3,14 +3,31 @@ package br.com.branq.model;
 import java.io.Serializable;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+// informa que essa é uma classe do DB
+@Entity
+@Table(name = "person") //informa a qual tabela do banco a classe refere-se
 public class Person implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
+	
+	@Id //por padrao e nullable false
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // autoincrement
 	private long id;
+	@Column(name = "first_name", nullable = false, length = 80) //por padrao, o nullable e true
 	private String firstName;
+	@Column(name = "last_name", nullable = false, length = 80)
 	private String lastName;
+	@Column(nullable = false, length = 100)
 	private String address;
+	@Column(nullable = false, length = 6)
 	private String gender;
 	
 	//JPA exige construtor padrão

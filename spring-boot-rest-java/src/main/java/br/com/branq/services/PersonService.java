@@ -1,73 +1,69 @@
 package br.com.branq.services;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.branq.model.Person;
+import br.com.branq.model.interfaces.IPersonRepository;
 
 //Essa anotacao serve para o sprint boot saber que vai ser injetado em runtime em outras classes da aplicacao
 @Service
 public class PersonService {
 
-	private final AtomicLong counter = new AtomicLong();
 	private Logger logger = Logger.getLogger(PersonService.class.getName());
 	
-	public Person getById(String id) {
+	@Autowired
+	private IPersonRepository personRepository;
+	
+	public Person getById(Long id) throws ClassNotFoundException {
 		
-		logger.info("returning new person");
+		logger.info("Finding by id");
 		
-		Person person = new Person();
-		person.setId(counter.incrementAndGet());
-		person.setAddress("addres 1");
-		person.setFirstName("first name");
-		person.setLastName("last name");
-		person.setGender("f");
-		
-		return person;
+		return personRepository
+				.findById(id)
+				.orElseThrow(() -> new ClassNotFoundException("No records found for this id"));
 	}
 	
 	public List<Person> getAll() {
 		
-		logger.info("returning people");
+		logger.info("Finding people");
 		
-		List<Person> persons = new ArrayList<>();
-		
-		for (int i = 0; i < 11; i++) {
-			
-			var person = new Person();
-			var id = counter.incrementAndGet();
-			
-			person.setId(id);
-			person.setAddress("addres" + id);
-			person.setFirstName("first name " + id);
-			person.setLastName("last name " + id);
-			person.setGender("f");
-			
-			persons.add(person);
-		}
-		
-		return persons;
+		return personRepository.findAll();
 	}
 	
 	public Person createPerson(Person person) {
 		
-		logger.info("creating people");
+		logger.info("Saving person");
 		
-		return person;
+		return personRepository.save(person);
 	}
 	
-    public Person updatePerson(Person person) {
+    public Person updatePerson(Person person) throws ClassNotFoundException {
 		
-		logger.info("updating person");
+		logger.info("Updating person");
 		
-		return person;
+		var entity = personRepository
+				.findById(person.getId())
+				.orElseThrow(() -> new ClassNotFoundException("No records found for this id"));
+		
+		entity.setAddress(person.getAddress());
+		entity.setFirstName(person.getFirstName());
+		entity.setLastName(person.getLastName());
+		entity.setGender(person.getGender());
+		
+		return personRepository.save(entity);
 	}
     
-    public void deletePerson(String id) {
-		logger.info("deleting person");
+    public void deletePerson(Long id) throws ClassNotFoundException {
+		logger.info("Deleting person");
+		
+		var entity = personRepository
+				.findById(id)
+				.orElseThrow(() -> new ClassNotFoundException("No records found for this id"));
+		
+		personRepository.delete(entity);
 	}
 }

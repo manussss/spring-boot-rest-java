@@ -24,7 +24,7 @@ public class PersonController {
 	private PersonService service;
 	
 	@GetMapping("/{id}")
-	public Person getById(@PathVariable(value = "id") String id) {
+	public Person getById(@PathVariable(value = "id") Long id) throws ClassNotFoundException {
 		return service.getById(id);
 	}
 	
@@ -39,12 +39,12 @@ public class PersonController {
 	}
 	
 	@PutMapping()
-	public Person updatePerson(@RequestBody Person person) {
+	public Person updatePerson(@RequestBody Person person) throws ClassNotFoundException {
 		return service.updatePerson(person);
 	}
 	
 	@DeleteMapping("/{id}")
-	public HttpStatusCode deletePerson(@PathVariable(value = "id") String id) {
+	public HttpStatusCode deletePerson(@PathVariable(value = "id") Long id) throws ClassNotFoundException {
 		service.deletePerson(id);
 		
 		return HttpStatusCode.valueOf(204);
