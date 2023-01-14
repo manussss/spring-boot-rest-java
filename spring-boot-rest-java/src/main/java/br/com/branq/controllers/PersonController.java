@@ -2,8 +2,13 @@ package br.com.branq.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,5 +31,22 @@ public class PersonController {
 	@GetMapping()
 	public List<Person> getAll() {
 		return service.getAll();
+	}
+	
+	@PostMapping()
+	public Person createPerson(@RequestBody Person person) {
+		return service.createPerson(person);
+	}
+	
+	@PutMapping()
+	public Person updatePerson(@RequestBody Person person) {
+		return service.updatePerson(person);
+	}
+	
+	@DeleteMapping("/{id}")
+	public HttpStatusCode deletePerson(@PathVariable(value = "id") String id) {
+		service.deletePerson(id);
+		
+		return HttpStatusCode.valueOf(204);
 	}
 }

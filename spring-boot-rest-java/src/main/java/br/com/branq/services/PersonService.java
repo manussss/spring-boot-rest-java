@@ -32,6 +32,8 @@ public class PersonService {
 	
 	public List<Person> getAll() {
 		
+		logger.info("returning people");
+		
 		List<Person> persons = new ArrayList<>();
 		
 		for (int i = 0; i < 11; i++) {
@@ -49,5 +51,23 @@ public class PersonService {
 		}
 		
 		return persons;
+	}
+	
+	public Person createPerson(Person person) {
+		
+		logger.info("creating people");
+		
+		return person;
+	}
+	
+    public Person updatePerson(Person person) {
+		
+		logger.info("updating person");
+		
+		return person;
+	}
+    
+    public void deletePerson(String id) {
+		logger.info("deleting person");
 	}
 }
