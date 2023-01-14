@@ -1,5 +1,7 @@
 package br.com.branq.services;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 
@@ -26,5 +28,26 @@ public class PersonService {
 		person.setGender("f");
 		
 		return person;
+	}
+	
+	public List<Person> getAll() {
+		
+		List<Person> persons = new ArrayList<>();
+		
+		for (int i = 0; i < 11; i++) {
+			
+			var person = new Person();
+			var id = counter.incrementAndGet();
+			
+			person.setId(id);
+			person.setAddress("addres" + id);
+			person.setFirstName("first name " + id);
+			person.setLastName("last name " + id);
+			person.setGender("f");
+			
+			persons.add(person);
+		}
+		
+		return persons;
 	}
 }
